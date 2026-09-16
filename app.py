@@ -27,6 +27,7 @@ COLORS = {'Dropout': '#c76b4c', 'Enrolled': '#b38a35', 'Graduate': '#168477'}
 COLOR_SCALE = alt.Scale(domain=CLASS_NAMES, range=[COLORS[c] for c in CLASS_NAMES])
 REPO = 'https://github.com/mpnabil95/student-success-prediction'
 PANEL_IDS = count()
+METRIC_IDS = count()
 
 st.set_page_config(page_title='Student Success · Academic Insights', page_icon='🎓', layout='wide')
 
@@ -99,8 +100,9 @@ def panel():
 def metric_row(items):
     for col, (label, value, detail) in zip(st.columns(len(items)), items):
         with col:
-            st.metric(label, value, help=detail)
-            st.caption(detail)
+            with st.container(border=True, key=f'ss_metric_{next(METRIC_IDS)}'):
+                st.metric(label, value, help=detail)
+                st.caption(detail)
 
 
 def show_validation(err):
@@ -139,15 +141,25 @@ def sidebar():
 
 def page_header(page):
     titles = {
-        PAGES[0]: ('Eksplorasi perjalanan akademik', 'Kenali pola historis sebelum melihat prediksi.'),
-        PAGES[1]: ('Satu profil, pemahaman lebih utuh', 'Tinjau kemungkinan status studi dari data semester pertama.'),
-        PAGES[2]: ('Tinjau banyak profil sekaligus', 'Dari CSV menjadi daftar peninjauan yang dapat ditelusuri.'),
-        PAGES[3]: ('Kenali kemampuan dan batas model', 'Evaluasi yang transparan untuk interpretasi yang bertanggung jawab.'),
+        PAGES[0]: ('01', 'Eksplorasi perjalanan akademik',
+                   'Kenali pola historis sebelum melihat prediksi.',
+                   ['4.424 profil', '17 program studi', 'Snapshot historis']),
+        PAGES[1]: ('02', 'Satu profil, pemahaman lebih utuh',
+                   'Tinjau kemungkinan status studi dari data semester pertama.',
+                   ['14 fitur', '3 kemungkinan status', 'Tinjauan oleh manusia']),
+        PAGES[2]: ('03', 'Tinjau banyak profil sekaligus',
+                   'Dari CSV menjadi daftar peninjauan yang dapat ditelusuri.',
+                   ['Alur kerja CSV', 'Validasi per baris', 'Hasil dapat diunduh']),
+        PAGES[3]: ('04', 'Kenali kemampuan dan batas model',
+                   'Evaluasi yang transparan untuk interpretasi yang bertanggung jawab.',
+                   ['Historical holdout', 'Kebijakan recall-first', 'Model card tersedia']),
     }
-    title, subtitle = titles[page]
-    html(f'<div class="topline"><span>STUDENT SUCCESS <b>/</b> {escape(page.upper())}</span>'
+    index, title, subtitle, metadata = titles[page]
+    meta = ''.join(f'<span>{escape(item)}</span>' for item in metadata)
+    html(f'<div class="topline"><span><b>{index}</b> STUDENT SUCCESS <i>/</i> {escape(page.upper())}</span>'
          '<span class="context-badge">STUDI RETROSPEKTIF</span></div>'
-         f'<div class="page-heading"><h1>{escape(title)}</h1><p>{escape(subtitle)}</p></div>')
+         f'<div class="page-heading"><h1>{escape(title)}</h1><p>{escape(subtitle)}</p>'
+         f'<div class="page-meta">{meta}</div></div>')
 
 
 def reset_filters():
