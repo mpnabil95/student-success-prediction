@@ -59,6 +59,16 @@ class StreamlitIntegrationTests(unittest.TestCase):
                         self.assertIsInstance(padding[side], (int, float))
                         self.assertGreaterEqual(padding[side], 0)
 
+    def test_chart_expressions_are_browser_safe(self):
+        app = self.app('Kinerja Model')
+        charts = app.get('arrow_vega_lite_chart')
+        self.assertGreater(len(charts), 0)
+        for index, element in enumerate(charts):
+            with self.subTest(chart=index):
+                serialized = element.proto.spec
+                self.assertNotIn('np.', serialized)
+                self.assertNotIn('numpy.', serialized)
+
     def test_overview_empty_filter_and_reset(self):
         app = self.app()
         data = pd.read_csv(DATA_PATH, sep=';')

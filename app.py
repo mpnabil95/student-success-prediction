@@ -456,8 +456,12 @@ def performance(manifest):
             base = alt.Chart(cm).encode(x=alt.X('Prediksi:N', sort=CLASS_NAMES, title=None, axis=alt.Axis(labelAngle=0)),
                                         y=alt.Y('Aktual:N', sort=CLASS_NAMES, title=None), tooltip=['Aktual', 'Prediksi', 'Jumlah'])
             tiles = base.mark_rect(cornerRadius=5).encode(color=alt.Color('Jumlah:Q', scale=alt.Scale(range=['#edf6f3', '#117367']), legend=None))
+            # Altair preserves NumPy scalar constructors inside expression strings
+            # (for example ``np.float64(199.0)``). Vega cannot execute that Python
+            # syntax in the browser, so normalize the threshold to a plain float.
+            label_contrast_threshold = float(cm['Jumlah'].max()) * .5
             labels = base.mark_text(fontSize=20, fontWeight=600).encode(text='Jumlah:Q', color=alt.condition(
-                alt.datum.Jumlah > cm.Jumlah.max() * .5, alt.value('white'), alt.value('#26483f')))
+                alt.datum.Jumlah > label_contrast_threshold, alt.value('white'), alt.value('#26483f')))
             chart(tiles + labels, 265)
             st.caption(f'Accuracy: {percent(m["accuracy"])} · Diagonal menunjukkan prediksi status yang benar.')
         with right, panel():
