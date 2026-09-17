@@ -9,6 +9,15 @@ ROOT = Path(__file__).resolve().parents[1]
 CSS_PATH = ROOT / '.streamlit' / 'styles.css'
 CONFIG_PATH = ROOT / '.streamlit' / 'config.toml'
 APP_PATH = ROOT / 'app.py'
+ACTION_ICON_KEYS = (
+    'program_summary_download',
+    'individual_submit',
+    'individual_download',
+    'batch_submit',
+    'template_download',
+    'batch_download_all',
+    'batch_download_filtered',
+)
 
 
 def relative_luminance(color):
@@ -50,6 +59,14 @@ class UIAssetTests(unittest.TestCase):
 
     def test_app_buttons_do_not_depend_on_material_icon_font(self):
         self.assertNotIn(':material/', self.app_source)
+
+    def test_action_icons_use_stable_keys_and_embedded_vectors(self):
+        for key in ACTION_ICON_KEYS:
+            with self.subTest(key=key):
+                self.assertRegex(self.app_source, rf"key=['\"]{key}['\"]")
+                self.assertIn(f'.st-key-{key}', self.css)
+        self.assertIn('--ss-action-icon:url("data:image/svg+xml,', self.css)
+        self.assertIn('mask:var(--ss-action-icon)', self.css)
 
     def test_internal_streamlit_icons_have_font_independent_fallbacks(self):
         for selector in [
