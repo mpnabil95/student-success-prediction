@@ -8,6 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 CSS_PATH = ROOT / '.streamlit' / 'styles.css'
 CONFIG_PATH = ROOT / '.streamlit' / 'config.toml'
+APP_PATH = ROOT / 'app.py'
 
 
 def relative_luminance(color):
@@ -27,6 +28,7 @@ class UIAssetTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.css = CSS_PATH.read_text(encoding='utf-8')
+        cls.app_source = APP_PATH.read_text(encoding='utf-8')
         cls.tokens = dict(re.findall(r'(--ss-[\w-]+):\s*(#[0-9a-fA-F]{6})', cls.css))
         cls.theme = tomllib.loads(CONFIG_PATH.read_text(encoding='utf-8'))['theme']
 
@@ -45,6 +47,20 @@ class UIAssetTests(unittest.TestCase):
         self.assertEqual(self.theme['primaryColor'].lower(), self.tokens['--ss-teal'])
         self.assertEqual(self.theme['backgroundColor'].lower(), self.tokens['--ss-canvas'])
         self.assertEqual(self.theme['textColor'].lower(), self.tokens['--ss-ink'])
+
+    def test_app_buttons_do_not_depend_on_material_icon_font(self):
+        self.assertNotIn(':material/', self.app_source)
+
+    def test_internal_streamlit_icons_have_font_independent_fallbacks(self):
+        for selector in [
+            'stSidebarCollapseButton',
+            'stExpandSidebarButton',
+            'stExpander',
+        ]:
+            with self.subTest(selector=selector):
+                self.assertIn(selector, self.css)
+        self.assertIn('[aria-expanded="false"]', self.css)
+        self.assertIn('font-size:0!important', self.css)
 
 
 if __name__ == '__main__':

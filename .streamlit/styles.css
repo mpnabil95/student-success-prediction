@@ -20,10 +20,51 @@
 [data-testid="stMainBlockContainer"] { max-width:1480px; padding:2.2rem 3rem 1rem; }
 [data-testid="stHeader"] { background:rgba(247,250,251,.93); border-bottom:1px solid rgba(183,201,208,.55); }
 [data-testid="stSidebar"] { background:linear-gradient(180deg,#fff 0,#f8fbfa 100%); border-right:1px solid var(--ss-line-strong); box-shadow:4px 0 22px rgba(17,49,61,.04); }
-@media(min-width:901px) { [data-testid="stSidebar"] { width:280px!important; min-width:280px!important; max-width:280px!important; } }
+@media(min-width:901px) {
+  [data-testid="stSidebar"][aria-expanded="true"] { width:280px!important; min-width:280px!important; max-width:280px!important; }
+  [data-testid="stSidebar"][aria-expanded="false"] { width:0!important; min-width:0!important; max-width:0!important; border-right:0; box-shadow:none; }
+}
 [data-testid="stSidebarContent"] { padding-top:.5rem; }
 [data-testid="stSidebar"] [data-testid="stSidebarUserContent"] { padding:1rem 1.5rem 2rem; }
-h1,h2,h3,h4,p,button,label { font-family: 'Inter', 'Segoe UI', sans-serif; }
+h1,h2,h3,h4,p,label { font-family:'Inter','Segoe UI',sans-serif; }
+
+/* The sidebar toggle must stay usable even when the Material icon font is unavailable. */
+[data-testid="stSidebarHeader"] { min-height:58px; align-items:center; }
+[data-testid="stSidebarCollapseButton"] { visibility:visible!important; opacity:1!important; }
+[data-testid="stSidebarCollapseButton"] button,
+button[data-testid="stExpandSidebarButton"] {
+  display:inline-flex!important;
+  align-items:center;
+  justify-content:center;
+  width:36px!important;
+  min-width:36px!important;
+  height:36px!important;
+  padding:0!important;
+  border:1px solid var(--ss-line-strong)!important;
+  border-radius:10px!important;
+  background:#fff!important;
+  color:var(--ss-ink)!important;
+  box-shadow:var(--ss-shadow-sm)!important;
+}
+button[data-testid="stExpandSidebarButton"] { position:fixed!important; top:13px!important; left:14px!important; z-index:999999!important; }
+[data-testid="stSidebarCollapseButton"] button:hover,
+button[data-testid="stExpandSidebarButton"]:hover { border-color:var(--ss-teal)!important; background:var(--ss-teal-soft)!important; color:var(--ss-teal-dark)!important; }
+[data-testid="stSidebarCollapseButton"] [data-testid="stIconMaterial"],
+button[data-testid="stExpandSidebarButton"] [data-testid="stIconMaterial"] {
+  display:inline-flex!important;
+  align-items:center;
+  justify-content:center;
+  width:18px!important;
+  height:22px!important;
+  overflow:hidden!important;
+  font-family:Arial,sans-serif!important;
+  font-size:0!important;
+  line-height:1!important;
+}
+[data-testid="stSidebarCollapseButton"] [data-testid="stIconMaterial"]::before,
+button[data-testid="stExpandSidebarButton"] [data-testid="stIconMaterial"]::before { font-family:Arial,sans-serif; font-size:25px; font-weight:700; line-height:20px; }
+[data-testid="stSidebarCollapseButton"] [data-testid="stIconMaterial"]::before { content:"‹"; }
+button[data-testid="stExpandSidebarButton"] [data-testid="stIconMaterial"]::before { content:"›"; }
 .brand { display:flex; gap:13px; align-items:center; padding:12px 0 32px; }
 .brand-mark { flex:0 0 46px; height:46px; background:linear-gradient(145deg,#0d8375,#07594f); color:#fff; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:32px; font-weight:700; line-height:1; box-shadow:0 7px 16px rgba(11,116,104,.22); }
 .brand-mark span { font-size:18px; align-self:flex-start; margin-top:7px; }
@@ -106,7 +147,8 @@ div[class*="st-key-ss_metric_"] [data-testid="stCaptionContainer"] { padding:0 1
 [data-testid="stNumberInputContainer"]:hover,
 [data-testid="stTextInputRootElement"]:hover { border-color:#7fa9a3!important; }
 [data-testid="stSlider"] [role="slider"] { box-shadow:0 0 0 3px #fff,0 0 0 5px rgba(11,116,104,.18); }
-.stButton button,.stDownloadButton button,[data-testid="stFormSubmitButton"] button { border:1px solid var(--ss-line-strong); border-radius:9px; font-size:12px; font-weight:650; min-height:42px; background:#fff; color:var(--ss-ink); transition:transform .15s,box-shadow .15s,border-color .15s,background .15s; }
+.stButton button,.stDownloadButton button,[data-testid="stFormSubmitButton"] button { gap:8px; overflow:hidden; border:1px solid var(--ss-line-strong); border-radius:9px; font-family:'Inter','Segoe UI',sans-serif; font-size:12px; font-weight:650; line-height:1.35; min-height:42px; background:#fff; color:var(--ss-ink); transition:transform .15s,box-shadow .15s,border-color .15s,background .15s; }
+.stButton button p,.stDownloadButton button p,[data-testid="stFormSubmitButton"] button p { margin:0; line-height:1.35; }
 .stButton button:hover,.stDownloadButton button:hover { border-color:var(--ss-teal); color:var(--ss-teal-dark); background:#f4faf8; box-shadow:0 4px 12px rgba(11,116,104,.11); transform:translateY(-1px); }
 .stButton button[kind="primary"],[data-testid="stFormSubmitButton"] button[kind="primary"] { border-color:var(--ss-teal-dark); background:var(--ss-teal); color:#fff; box-shadow:0 5px 13px rgba(11,116,104,.2); }
 .stButton button[kind="primary"]:hover,[data-testid="stFormSubmitButton"] button[kind="primary"]:hover { background:var(--ss-teal-dark); color:#fff; }
@@ -115,14 +157,18 @@ main [data-testid="stRadio"] [role="radiogroup"] { width:max-content; max-width:
 main [data-testid="stRadio"] [role="radiogroup"] label { margin:0; padding:6px 11px; border:1px solid transparent; border-radius:8px; }
 main [data-testid="stRadio"] [role="radiogroup"] label:has(input:checked) { background:#fff; border-color:#c5d5da; box-shadow:0 2px 7px rgba(17,49,61,.08); }
 main [data-testid="stRadio"] [role="radiogroup"] label:has(input:checked) p { color:var(--ss-teal-dark); font-weight:700; }
-[data-baseweb="tab-list"] { width:max-content; min-width:100%; gap:4px; padding:4px; background:#e3ecef; border:1px solid var(--ss-line); border-radius:12px; }
-[data-baseweb="tab"] { min-height:42px; padding:9px 16px; border-radius:8px; font-size:13px; color:#526a77; }
+[data-baseweb="tab-list"] { width:max-content; min-width:100%; max-width:100%; gap:4px; padding:4px; overflow-x:auto; overflow-y:hidden; background:#e3ecef; border:1px solid var(--ss-line); border-radius:12px; }
+[data-baseweb="tab"] { flex:0 0 auto; min-height:42px; padding:9px 16px; border-radius:8px; font-size:13px; white-space:nowrap; color:#526a77; }
 [data-baseweb="tab"][aria-selected="true"] { background:#fff; color:var(--ss-teal-dark); font-weight:700; box-shadow:0 2px 8px rgba(17,49,61,.1); }
 [data-baseweb="tab-highlight"] { display:none; }
 [data-testid="stFileUploaderDropzone"] { background:#f6faf9; border:1.5px dashed #7eaaa1; border-radius:12px; padding:24px 16px; }
 [data-testid="stFileUploaderDropzone"]:hover { background:#edf7f4; border-color:var(--ss-teal); }
 [data-testid="stDataFrame"], [data-testid="stTable"] { border:1px solid var(--ss-line); border-radius:10px; overflow:hidden; }
 [data-testid="stExpander"] { background:#fff; border:1px solid var(--ss-line)!important; border-radius:10px!important; box-shadow:var(--ss-shadow-sm); }
+[data-testid="stExpander"] summary { align-items:center; }
+[data-testid="stExpander"] summary [data-testid="stIconMaterial"] { display:inline-flex!important; align-items:center; justify-content:center; flex:0 0 18px; width:18px!important; height:22px!important; overflow:hidden!important; font-family:Arial,sans-serif!important; font-size:0!important; line-height:1!important; }
+[data-testid="stExpander"] summary [data-testid="stIconMaterial"]::before { content:"›"; font-family:Arial,sans-serif; font-size:23px; font-weight:700; line-height:20px; color:var(--ss-muted); }
+[data-testid="stExpander"] details[open] summary [data-testid="stIconMaterial"]::before { content:"⌄"; font-size:21px; }
 [data-testid="stAlert"] { border-width:1px 1px 1px 4px; border-radius:10px; box-shadow:var(--ss-shadow-sm); }
 [data-testid="stVegaLiteChart"] { padding-top:4px; }
 .page-footer { display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; border-top:1px solid var(--ss-line-strong); margin-top:38px; padding:21px 0 10px; font-size:10px; font-weight:600; color:#657b86; }
