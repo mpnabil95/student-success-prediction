@@ -241,7 +241,7 @@ def overview():
                              'proporsi_dropout': st.column_config.ProgressColumn('Proporsi dropout', min_value=0, max_value=1, format='percent'),
                          })
             st.download_button('Unduh ringkasan program', show[['Program studi', 'jumlah', 'dropout', 'proporsi_dropout']].to_csv(index=False).encode('utf-8'),
-                               'program_summary.csv', 'text/csv')
+                               'program_summary.csv', 'text/csv', key='program_summary_download')
     note('Mulai dari pola, lanjutkan dengan peninjauan',
          'Dashboard ini membaca data historis. Untuk mencoba prediksi, pilih Prediksi Individu atau Prediksi Batch di sidebar.')
 
@@ -295,7 +295,8 @@ def individual(model, manifest):
                                     kwargs = {'min_value': int(spec.low), 'max_value': int(spec.high), 'step': 1} if spec.kind == 'integer' else {
                                         'min_value': float(spec.low), 'max_value': float(spec.high), 'step': .1}
                                     values[field] = st.number_input(spec.label, key='input_' + field, help=spec.description, **kwargs)
-                submitted = st.form_submit_button('Lihat hasil peninjauan', type='primary', width='stretch')
+                submitted = st.form_submit_button('Lihat hasil peninjauan', type='primary', width='stretch',
+                                                   key='individual_submit')
             st.caption('Kirim kembali formulir setiap kali mengubah input. Hasil di samping berasal dari pengiriman terakhir.')
             if submitted:
                 st.session_state.pop('individual_result', None)
@@ -347,7 +348,8 @@ def individual(model, manifest):
                     display['Fitur'] = display.Fitur.map(lambda c: FIELDS[c].label)
                     st.dataframe(display, hide_index=True, width='stretch')
                 st.download_button('Unduh hasil individu', result.to_csv(index=False).encode('utf-8'),
-                                   'student_prediction.csv', 'text/csv', width='stretch')
+                                   'student_prediction.csv', 'text/csv', width='stretch',
+                                   key='individual_download')
 
 
 def batch(model, manifest):
@@ -369,7 +371,8 @@ def batch(model, manifest):
             for key in ['batch_result', 'batch_warnings', 'batch_action_filter']:
                 st.session_state.pop(key, None)
             st.session_state['batch_fingerprint'] = fingerprint
-        if st.button('Validasi dan prediksi', type='primary', disabled=content is None, width='stretch'):
+        if st.button('Validasi dan prediksi', type='primary', disabled=content is None, width='stretch',
+                     key='batch_submit'):
             st.session_state.pop('batch_result', None)
             st.session_state.pop('batch_warnings', None)
             try:
@@ -392,7 +395,7 @@ def batch(model, manifest):
         ]:
             html(f'<div class="action-item"><span>{n}</span><p><b>{title}</b><br>{body}</p></div>')
         st.download_button('Unduh template dan 3 contoh sintetis', template.to_csv(index=False).encode('utf-8'),
-                           'students_template.csv', 'text/csv', width='stretch')
+                           'students_template.csv', 'text/csv', width='stretch', key='template_download')
         st.caption('Unggahan diproses dalam sesi dan tidak ditulis ke file project. Batas: 10 MB · 10.000 baris.')
     result = st.session_state.get('batch_result')
     if result is None:
@@ -424,10 +427,10 @@ def batch(model, manifest):
                          })
         a, b = st.columns(2)
         a.download_button('Unduh seluruh hasil', result.to_csv(index=False).encode('utf-8'),
-                          'batch_predictions.csv', 'text/csv', width='stretch')
+                          'batch_predictions.csv', 'text/csv', width='stretch', key='batch_download_all')
         b.download_button('Unduh tampilan terfilter', view.to_csv(index=False).encode('utf-8'),
                           'batch_predictions_filtered.csv', 'text/csv', width='stretch',
-                          disabled=view.empty)
+                          disabled=view.empty, key='batch_download_filtered')
         st.caption('Seluruh hasil mengikuti urutan input. Unduhan terfilter mengikuti kategori dan urutan tabel saat ini.')
 
 
