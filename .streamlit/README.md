@@ -24,4 +24,4 @@ Aplikasi saat ini tidak membutuhkan API key. Jika kelak memakai secrets, jangan 
 
 `app.py` membaca styles.css dari direktori ini. Warna dasar juga diselaraskan dengan config.toml. Container panel memakai `key` Streamlit sebagai kait CSS publik. Beberapa penyesuaian widget tetap bergantung pada atribut frontend Streamlit; periksa ulang tampilan setelah mengganti versi Streamlit. Jangan menghapus indikator fokus keyboard atau tombol pembuka sidebar.
 
-CSS memuat aturan layar kecil dan preferensi reduced motion. Tampilan desktop/mobile belum diverifikasi secara visual karena browser pengujian memblokir server lokal. Rincian perubahan dan bukti AppTest ada di [UI_CHANGELOG.md](../docs/UI_CHANGELOG.md).
+CSS memuat aturan layar kecil dan preferensi reduced motion. Audit baseline memeriksa browser desktop, sidebar, grafik evaluasi/diagnostik, serta alur individu dan batch sintetis. Tampilan semua ukuran layar, pemilih file dan unduhan browser belum diuji menyeluruh. Rincian sejarah perubahan ada di [UI_CHANGELOG.md](../docs/UI_CHANGELOG.md); bukti paket terbaru ada di [RELEASE_READINESS.md](../docs/RELEASE_READINESS.md).

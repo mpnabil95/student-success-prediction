@@ -4,6 +4,8 @@
 
 Folder ini berisi konfigurasi khusus GitHub. Otomatisasi menjalankan pemeriksaan ketika kode diperbarui sehingga hasilnya dapat diperiksa melalui tab Actions.
 
+Workflow memiliki dua job berurutan: **Check committed package** memeriksa file yang akan dikirim, lalu **Reproduce the experiment** membangun ulang dan membandingkan hasil dengan snapshot commit. Keduanya perlu berhasil sebelum release.
+
 ## Isi folder
 
 | File atau folder | Fungsi | Kapan dibuka |
