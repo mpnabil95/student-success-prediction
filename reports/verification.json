@@ -1,20 +1,20 @@
 {
-  "core_training": "completed; selected calibrated artifact generated",
-  "notebook": {
-    "total_cells": 41,
+  "verified_at_utc": "2026-09-20T03:36:10.027541+00:00",
+  "integrity": {
+    "notebook_cells": 41,
     "executed_code_cells": 28,
-    "error_outputs": 0,
-    "execution_method": "sequential ordinary Python; real stdout, DataFrame and matplotlib outputs"
+    "source_hashes_match_manifest": true,
+    "verified_prediction_rows": 1770,
+    "verified_thresholds": 91,
+    "model_sha256": "d5a6fb0417668b16d313bc58b3e35d7e263e25d7b92b6dd7ae1e6c5ba79aa6f1"
   },
-  "python_syntax": "all source files parsed",
-  "tests_run": 23,
-  "passed": 23,
+  "tests_run": 39,
+  "passed": 39,
   "skipped": 0,
   "failures": 0,
   "errors": 0,
-  "skip_reasons": [],
-  "streamlit_installed": true,
-  "source_hashes_match_manifest": true,
-  "deployment": "not changed or independently verified",
-  "original_metabase": "preserved in archived branch; not restored in this package"
+  "training": "not rerun by this verifier",
+  "notebook": "nbformat, syntax, execution counts and saved outputs inspected; no kernel launched",
+  "deployment": "not changed or tested by this verifier",
+  "github_actions": "check the run for the committed revision separately"
 }

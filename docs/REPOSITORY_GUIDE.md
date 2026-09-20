@@ -28,6 +28,7 @@ Untuk menemukan satu file tertentu, buka README foldernya melalui tabel berikut.
 | Pemeriksaan perilaku | [tests/](../tests/README.md) | Tes otomatis aturan data, model, dan sebagian alur aplikasi |
 | Otomatisasi GitHub | [.github/](../.github/GUIDE.md) dan [workflows/](../.github/workflows/README.md) | Perintah pemeriksaan pada runner GitHub Actions |
 | Tampilan dan pengaturan app | [.streamlit/](../.streamlit/README.md) | Tema dan pengaturan unggahan |
+| Lingkungan pengembangan | [.devcontainer/](../.devcontainer/README.md) | Python 3.12 dan setup aplikasi untuk Codespaces |
 
 Saat **training**, kode membaca `data/raw/` dan menghasilkan `artifacts/`, `reports/`, serta template sintetis. Saat **prediksi**, `app.py` memakai kode `student_success/` untuk membaca artefak dan memproses masukan pengguna. Dashboard membaca dataset historis, sedangkan halaman kinerja membaca laporan.
 

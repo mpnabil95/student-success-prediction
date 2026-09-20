@@ -50,6 +50,10 @@ Gunakan untuk beberapa profil sekaligus. Pilihan Contoh sintetis memungkinkan pe
 
 Batas: **10 MB dan 10.000 baris data**. Semua baris harus valid; aplikasi tidak diam-diam melewatkan baris yang salah. Nama kolom ganda, kolom wajib hilang, nilai kosong, kategori tidak dikenal, dan relasi akademik tidak sah dapat menyebabkan penolakan.
 
+Setiap baris harus memiliki jumlah kolom yang sama dengan header. Kolom berlebih tanpa nama header, kolom yang kurang, header kosong, dan tanda kutip tidak lengkap ditolak sebelum prediksi. Nilai yang memuat pemisah atau baris baru harus diapit tanda kutip CSV. Baris fisik kosong diabaikan; baris yang berisi pemisah dengan nilai kosong tetap divalidasi dan ditolak bila fitur wajib kosong.
+
+Nomor baris pada error dan `source_row` menghitung record data mulai dari 1, tanpa header dan tanpa baris fisik kosong. Satu nilai dalam tanda kutip dapat memuat baris baru, sehingga nomor ini tidak selalu sama dengan nomor baris editor teks. Kolom tambahan hanya diperbolehkan jika mempunyai nama header dan jumlah field setiap record tetap sesuai.
+
 ### Aturan input yang sering membingungkan
 
 | Masukan | Cara mengisinya |

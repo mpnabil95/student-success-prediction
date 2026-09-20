@@ -80,25 +80,45 @@ def validate_features(frame: pd.DataFrame) -> pd.DataFrame:
     return out
 
 def parse_csv(content: bytes) -> pd.DataFrame:
+    """Parse records without implicit indexes or silently discarded fields."""
     if len(content)>10*1024*1024:
         raise ValidationError([(0,'file','Ukuran maksimum 10 MB.')])
     try: text=content.decode('utf-8-sig')
     except UnicodeDecodeError: raise ValidationError([(0,'file','Gunakan encoding UTF-8.')]) from None
     import csv
-    best=None
+    candidates=[]
     for sep in [',',';']:
         try:
-            header=next(csv.reader(io.StringIO(text),delimiter=sep))
+            header=next(csv.reader(io.StringIO(text),delimiter=sep,strict=True))
             if len(header)>1:
-                if len(set(header))!=len(header):
-                    raise ValidationError([(0,'schema','Nama kolom CSV duplikat.')])
-                candidate=pd.read_csv(io.StringIO(text),sep=sep)
-                score=sum(c in candidate for c in FEATURES)
-                if best is None or score>best[0]: best=(score,candidate)
-        except ValidationError: raise
-        except (ValueError,StopIteration,pd.errors.ParserError): continue
-    if best is None: raise ValidationError([(0,'file','CSV tidak dapat dibaca; gunakan koma atau titik koma.')])
-    return best[1]
+                candidates.append((sum(c in header for c in FEATURES),sep,header))
+        except (csv.Error,StopIteration):
+            continue
+    if not candidates:
+        raise ValidationError([(0,'file','CSV tidak dapat dibaca; gunakan koma atau titik koma.')])
+    _,sep,header=max(candidates,key=lambda item:item[0])
+    if len(set(header))!=len(header):
+        raise ValidationError([(0,'schema','Nama kolom CSV duplikat.')])
+    if any(not name.strip() for name in header):
+        raise ValidationError([(0,'schema','Nama kolom CSV tidak boleh kosong.')])
+    reader=csv.reader(io.StringIO(text),delimiter=sep,strict=True)
+    records=[]
+    row_number=0
+    try:
+        next(reader)  # The header was inspected above, using the same delimiter.
+        for record in reader:
+            if not record:  # Blank physical lines are not student records.
+                continue
+            row_number+=1
+            if row_number>10000:
+                raise ValidationError([(row_number,'file','Maksimum 10.000 baris per unggahan.')])
+            if len(record)!=len(header):
+                raise ValidationError([(row_number,'schema',
+                    f'Jumlah field {len(record)} berbeda dari header ({len(header)}). Periksa pemisah dan tanda kutip.')])
+            records.append(record)
+    except csv.Error:
+        raise ValidationError([(row_number+1,'file','Format kutipan CSV tidak valid.')]) from None
+    return pd.DataFrame(records,columns=header)
 
 def defaults(name='Contoh umum'):
     row={c:s.default for c,s in FIELDS.items()}

@@ -18,7 +18,7 @@ Seed 42; split internal memakai seed 43. Kalibrasi sigmoid memakai 3-fold CV di 
 Gunakan Python 3.12 dari root repository.
 
 ```bash
-python -m pip install -r requirements.txt
+python -m pip install -r requirements-notebook.txt
 python -m student_success.train
 python -m unittest discover -s tests -v
 streamlit run app.py
@@ -68,6 +68,14 @@ Pengulangan training dapat mempunyai sedikit perbedaan numerik lintas platform; 
 Training mengeluarkan warning konvergensi sebagai error. Tidak ada global `warnings.filterwarnings('ignore')`.
 
 Hentikan lalu jalankan ulang Streamlit setelah mengganti artefak atau melakukan retraining agar cache model dan laporan tidak mencampur dua versi.
+
+## Pemeriksaan sebelum dan setelah build
+
+Jalankan `python scripts/verify_package.py --read-only` sebelum membangun ulang. Perintah memeriksa paket yang ada, termasuk hash sumber, model/data, notebook, prediksi, metrik, threshold, dan seluruh tes. Jika modul inti berubah, bangun ulang bundle melalui `build_notebook.py`; jangan mengedit checksum manifest untuk melewati pemeriksaan.
+
+CI menyimpan snapshot commit sebelum build. Setelah `build_notebook.py` dan `build_docs.py`, `compare_reproduction.py --reference PATH_SNAPSHOT` membandingkan metrik JSON, sembilan tabel CSV, sumber sel notebook, serta dokumen hasil generator. Toleransi JSON: rtol 1e-9 / atol 1e-12; tabel: rtol 1e-7 / atol 1e-9. Perbedaan di luar toleransi menggagalkan CI dan harus ditinjau, bukan ditutup dengan mengganti referensi otomatis.
+
+Durasi training, byte serialisasi model, versi patch runtime, byte output notebook/figur, dan waktu verifikasi tidak dibandingkan untuk kesamaan reproduksi. Checksum model setiap bundle tetap diperiksa secara terpisah, dan prediksinya harus sesuai laporan. Aturan ini menguji konsistensi numerik; bukan audit keamanan atau bukti bahwa semua gambar identik. Lihat [workflow](../.github/workflows/README.md).
 
 ## Scope aplikasi
 

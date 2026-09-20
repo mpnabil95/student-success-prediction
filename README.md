@@ -13,7 +13,7 @@
 
 Studi kasus Data Science untuk memprediksi status studi mahasiswa menggunakan data pendaftaran dan capaian semester pertama, serta membantu dosen wali menentukan profil yang perlu ditinjau lebih lanjut.
 
-[**Mulai membaca**](#mulai-dari-sini) · [**Lihat notebook**](notebook.ipynb) · [**Panduan aplikasi**](docs/APP_GUIDE.md) · [**Pembaruan antarmuka**](docs/UI_CHANGELOG.md) · [**Peta file**](docs/REPOSITORY_GUIDE.md) · [**Dokumentasi**](docs/README.md)
+[**Buka demo**](https://student-success-prediction-95.streamlit.app/) · [**Mulai membaca**](#mulai-dari-sini) · [**Lihat notebook**](notebook.ipynb) · [**Panduan aplikasi**](docs/APP_GUIDE.md) · [**Peta file**](docs/REPOSITORY_GUIDE.md) · [**Dokumentasi**](docs/README.md)
 
 </div>
 
@@ -242,17 +242,16 @@ Jika muncul error versi model, instal versi dari `requirements.txt`. Jika valida
 
 ## Reproduksi dan pengujian
 
-Notebook yang disertakan berisi 41 sel, termasuk 28 sel kode yang sudah dieksekusi pada pembangunan paket awal. [Catatan verifikasi paket](docs/VALIDATION.md) memuat pemeriksaan lokal dan batasnya; bukti CI historis dicatat secara terpisah.
+Notebook yang disertakan berisi 41 sel, termasuk 28 sel kode yang sudah dieksekusi melalui builder Python. [Catatan verifikasi paket](docs/VALIDATION.md) memuat pemeriksaan lokal dan batasnya; bukti CI historis dicatat secara terpisah.
 
-Workflow [Project quality, run 34809204916](https://github.com/mpnabil95/student-success-prediction/actions/runs/34809204916) pada commit `6a5c888` telah **berhasil**, termasuk instalasi dependensi, pembangunan notebook dan dokumen, unit/integration tests, serta validasi format notebook. Ini adalah bukti untuk commit tersebut, bukan jaminan seluruh perubahan berikutnya. Cakupan tes dijelaskan di [tests/README.md](tests/README.md).
+Workflow [Project quality, run 35210959197](https://github.com/mpnabil95/student-success-prediction/actions/runs/35210959197) pada baseline `0fa0c24` telah berhasil saat audit. Workflow pembaruan ini memakai dua job: memeriksa paket yang di-commit terlebih dahulu, kemudian membangun ulang eksperimen dan membandingkan hasilnya dengan snapshot commit. Status kedua job harus diperiksa pada commit baru sebelum release.
 
-Pembaruan antarmuka diuji lokal dengan **23 tes lulus tanpa skip**. Rincian perubahan, kompatibilitas, dan batas pemeriksaan visual ada pada [UI_CHANGELOG.md](docs/UI_CHANGELOG.md).
+Paket perbaikan audit diuji lokal dengan **39 tes lulus tanpa skip**: kontrak model/input, struktur CSV, pemeriksaan paket, Streamlit AppTest, serta aset UI. Lihat [cakupan tes](tests/README.md), [kesiapan release](docs/RELEASE_READINESS.md), dan [riwayat UI](docs/UI_CHANGELOG.md).
 
 Dengan environment aktif dan dependensi notebook terpasang:
 
 ```bash
-python -m unittest discover -s tests -v
-python -c "import nbformat; nbformat.validate(nbformat.read('notebook.ipynb', as_version=4))"
+python scripts/verify_package.py --read-only
 ```
 
 Di Windows tanpa aktivasi, ganti `python` dengan `.\.venv\Scripts\python.exe`.
@@ -280,7 +279,7 @@ Konfigurasi yang disiapkan untuk Streamlit Community Cloud:
 | Dependensi | `requirements.txt` |
 | Model | Tiga file yang konsisten dalam `artifacts/` |
 
-Tautan demo publik belum dicantumkan karena deployment belum diverifikasi dalam pembaruan dokumentasi ini. Keberhasilan CI tidak menggantikan pemeriksaan tampilan browser, unggah-unduh, dan deployment. Setelah mengganti artefak model, mulai ulang aplikasi agar cache tidak mencampur versi.
+[Buka dashboard publik](https://student-success-prediction-95.streamlit.app/). Halaman desktop dan alur dasar baseline telah diperiksa saat audit; perubahan paket ini memerlukan pemeriksaan deployment setelah commit. Keberhasilan CI tidak menggantikan pemeriksaan browser. Setelah mengganti artefak model, mulai ulang aplikasi agar cache tidak mencampur versi.
 
 ## Keterbatasan dan pengembangan berikutnya
 

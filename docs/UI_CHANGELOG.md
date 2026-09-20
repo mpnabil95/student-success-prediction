@@ -2,7 +2,15 @@
 
 [README utama](../README.md) · [Panduan aplikasi](APP_GUIDE.md) · [Indeks dokumentasi](README.md)
 
-Pembaruan 14 September 2026, berdasarkan repository pada commit `97f405ee263ff15f14c802f65d3a2939c3eb73b3`. Tujuannya memperjelas hierarki informasi, memperbaiki pengalaman penggunaan, dan menyajikan hasil dengan identitas visual yang konsisten untuk portofolio.
+## Status setelah audit persiapan release — 20 September 2026
+
+Baseline audit: `0fa0c24e508f0221a2dae8044da17c3d7317e2bc`. Versi ini sudah mencakup peningkatan kontras, ikon SVG lokal/fallback tanpa ketergantungan font ikon, kontrol sidebar, serta pemulihan confusion matrix pada Hasil evaluasi. Tes tampilan bertambah menjadi 10 AppTest dan 5 tes aset. Suite lengkap setelah perbaikan audit berjumlah 39 tes lulus tanpa skip.
+
+Audit baseline memeriksa browser desktop: Gambaran Data, sidebar, prediksi individu, batch sintetis, confusion matrix, dan diagnostik. Paket perbaikan audit memperketat validasi CSV dan pemeriksaan release; tidak mendesain ulang UI. Pengujian menyeluruh mobile, pemilih file unggahan, unduhan browser, dan deployment commit baru masih perlu dilakukan. Lihat [kesiapan release](RELEASE_READINESS.md).
+
+## Riwayat pembaruan 14 September 2026
+
+Bagian berikut adalah catatan historis berdasarkan commit `97f405ee263ff15f14c802f65d3a2939c3eb73b3`; angka tes dan kendala browser di bawah berlaku pada tanggal tersebut. Tujuannya memperjelas hierarki informasi, memperbaiki pengalaman penggunaan, dan menyajikan hasil dengan identitas visual yang konsisten untuk portofolio.
 
 ## Perubahan yang diterapkan
 

@@ -123,6 +123,11 @@ Versi portofolio pertama mengembangkan baseline submission Dicoding menjadi stud
 - Dashboard historis, prediksi individu/batch, dan halaman kinerja dalam satu aplikasi.
 - Notebook sudah dijalankan; laporan metrik, error kelompok, importance, dan figur disertakan.
 - Validasi domain, relasi akademik, preset, dan kesetaraan batch/individu diuji.
+- Parser CSV menolak baris berlebih/kurang kolom, kutipan rusak, serta header kosong atau duplikat sebelum inference.
+- Ikon lokal, kontrol sidebar, kontras, dan rendering confusion matrix diperbaiki pada dashboard.
+- Codespaces memakai Python 3.12, instalasi berhenti saat gagal, dan proteksi CORS/XSRF bawaan tetap aktif.
+- CI memeriksa paket yang di-commit sebelum training, lalu membandingkan hasil reproduksi dengan snapshot commit tersebut.
+- Peta repository, panduan folder, dan bukti verifikasi diperbarui.
 
 ## Hasil
 
@@ -132,11 +137,11 @@ Hasil bersifat retrospektif pada holdout yang pernah dilihat dalam proyek lama. 
 
 ## Menjalankan
 
-Gunakan Python 3.12, instal `requirements.txt`, lalu jalankan `streamlit run app.py`. Artefak sudah tersedia; panduan lengkap di README.
+Gunakan Python 3.12, instal `requirements.txt`, lalu jalankan `streamlit run app.py`. Artefak sudah tersedia; panduan lengkap di README. [Buka demo](https://student-success-prediction-95.streamlit.app/).
 
 ## Verifikasi sebelum publikasi release
 
-Periksa `docs/VALIDATION.md`, jalankan CI dan tes Streamlit pada environment lengkap, serta tambahkan tautan deployment hanya setelah berhasil. Teks ini tidak mengklaim pengujian yang belum dijalankan.
+Lihat [hasil verifikasi lokal](VALIDATION.md) dan [kesiapan release](RELEASE_READINESS.md). Kedua job CI harus berhasil pada commit yang akan ditag. Dokumen ini adalah draf release; publikasi tag/release dilakukan pemilik repository.
 
 Arsip submission tetap pada `dicoding-submission-v1.0.0`.
 ''')

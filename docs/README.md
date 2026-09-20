@@ -16,7 +16,8 @@ Folder ini menjelaskan alasan, cara penggunaan, bukti, dan riwayat project. Tida
 | [FEATURE_DICTIONARY.md](FEATURE_DICTIONARY.md) | Kamus 14 fitur, skala nilai, kode kategori, dan aturan validasi. | Mengisi formulir atau mempersiapkan CSV. |
 | [MODEL_CARD.md](MODEL_CARD.md) | Model, protokol, metrik per kelas, interval, diagnosis kelompok, dan batas penggunaan. | Mengevaluasi kemampuan dan kelemahan model. |
 | [REPRODUCIBILITY.md](REPRODUCIBILITY.md) | Tahapan eksperimen, dependensi, keluaran, dan aturan pembaruan model. | Mengulang training atau memeriksa metodologi teknis. |
-| [VALIDATION.md](VALIDATION.md) | Catatan pemeriksaan paket awal dan hubungannya dengan bukti CI berikutnya. | Memeriksa apa yang benar-benar diuji dan apa yang belum. |
+| [VALIDATION.md](VALIDATION.md) | Catatan verifikasi lokal terakhir, dihasilkan verifier. | Memeriksa apa yang benar-benar diuji dan apa yang belum. |
+| [RELEASE_READINESS.md](RELEASE_READINESS.md) | Penyelesaian empat temuan audit, bukti, dan langkah sebelum tag. | Menyiapkan commit dan release portofolio. |
 | [AUDIT_REMEDIATION.md](AUDIT_REMEDIATION.md) | Temuan audit submission serta tindak lanjut di versi portofolio. | Memahami alasan perubahan dari project lama. |
 | [MIGRATION.md](MIGRATION.md) | Panduan historis mengganti isi main dari submission ke versi portofolio. | Memahami migrasi awal; bukan instruksi rutin untuk setiap pembaruan. |
 | [DICODING_RELEASE_CLEAN.md](DICODING_RELEASE_CLEAN.md) | Draf teks release arsip submission Dicoding. | Menyunting deskripsi release arsip jika diperlukan. |
