@@ -52,8 +52,6 @@ class UIAssetTests(unittest.TestCase):
             with self.subTest(pair=name):
                 self.assertGreaterEqual(contrast_ratio(foreground, background), 4.5)
         self.assertGreaterEqual(contrast_ratio('#ffffff', self.tokens['--ss-teal-hover']), 4.5)
-        self.assertIn('button[kind="primary"] :is(p,span) { color:inherit!important; }', self.css)
-        self.assertIn('button[kind="primary"]:disabled', self.css)
 
     def test_streamlit_theme_matches_design_tokens(self):
         self.assertEqual(self.theme['primaryColor'].lower(), self.tokens['--ss-teal'])

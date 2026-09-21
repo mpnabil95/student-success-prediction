@@ -2,11 +2,19 @@
 
 [README utama](../README.md) · [Panduan aplikasi](APP_GUIDE.md) · [Indeks dokumentasi](README.md)
 
+## Perbaikan hover tombol formulir — 21 September 2026
+
+Akar masalah: Streamlit 1.49.1 merender `st.form_submit_button(type="primary")` sebagai `button[kind="primaryFormSubmit"]`. CSS sebelumnya hanya mencakup `kind="primary"`, sehingga style formulir bawaan masih mengambil alih saat hover dan label/ikon kehilangan kontras.
+
+CSS sekarang mencakup kedua jenis tombol pada state normal, hover, fokus keyboard, aktif, dan nonaktif. Hover menggunakan teal `#09685f` dengan teks serta ikon putih. Fokus keyboard mempunyai outline; tombol batch tanpa input tetap nonaktif dengan warna tersendiri. Perubahan terbatas pada tampilan, tanpa training ulang atau perubahan logika prediksi.
+
+Verifikasi lokal pada Streamlit 1.49.1 dan Chromium: bug direproduksi dengan CSS lama pada DOM aplikasi yang sama; CSS baru lulus 8 pemeriksaan state (hover individu, normal, fokus keyboard, aktif, hover sesudah submit, hover pada viewport 390 px, batch nonaktif, batch nonaktif saat hover) ditambah hover batch aktif. Label dan ikon putih terukur pada semua state primer aktif. Submit individu menghasilkan panel hasil dan tombol unduhan. Suite verifikasi paket: 39 tes lulus, 0 gagal/error/skip. Pemeriksaan viewport sempit ini hanya memeriksa tombol; bukan audit mobile menyeluruh. Deployment publik perlu diperiksa setelah pengguna commit dan redeploy.
+
 ## Status setelah audit persiapan release — 20 September 2026
 
 Baseline audit: `0fa0c24e508f0221a2dae8044da17c3d7317e2bc`. Versi ini sudah mencakup peningkatan kontras, ikon SVG lokal/fallback tanpa ketergantungan font ikon, kontrol sidebar, serta pemulihan confusion matrix pada Hasil evaluasi. Tes tampilan bertambah menjadi 10 AppTest dan 5 tes aset. Suite lengkap setelah perbaikan audit berjumlah 39 tes lulus tanpa skip.
 
-State tombol aksi primer diperkuat setelah pemeriksaan deployment: label dan ikon mempertahankan warna putih pada kondisi hover, fokus, dan aktif; warna hover memakai teal yang tetap jelas; tombol nonaktif memiliki state abu-teal tersendiri. Perubahan ini mencegah tombol **Lihat hasil peninjauan** tampak hitam atau kehilangan kontras saat cursor diarahkan.
+Perbaikan awal state tombol pada 20 September hanya menyasar `kind="primary"`. Aturan itu tidak cocok dengan tombol formulir Streamlit (`kind="primaryFormSubmit"`), sehingga bug hover pada **Lihat hasil peninjauan** masih terjadi. Perbaikan lanjutannya dicatat di bagian 21 September di atas.
 
 Audit baseline memeriksa browser desktop: Gambaran Data, sidebar, prediksi individu, batch sintetis, confusion matrix, dan diagnostik. Paket perbaikan audit memperketat validasi CSV dan pemeriksaan release; tidak mendesain ulang UI. Pengujian menyeluruh mobile, pemilih file unggahan, unduhan browser, dan deployment commit baru masih perlu dilakukan. Lihat [kesiapan release](RELEASE_READINESS.md).
 
