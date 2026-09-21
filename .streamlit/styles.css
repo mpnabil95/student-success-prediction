@@ -4,6 +4,7 @@
   --ss-ink-strong:#0d2a35;
   --ss-muted:#526a77;
   --ss-teal:#0b7468;
+  --ss-teal-hover:#09685f;
   --ss-teal-dark:#07594f;
   --ss-teal-soft:#e2f1ed;
   --ss-line:#ccd9de;
@@ -171,8 +172,13 @@ div[class*="st-key-ss_metric_"] [data-testid="stCaptionContainer"] { padding:0 1
   mask:var(--ss-action-icon) center/contain no-repeat;
 }
 .stButton button:hover,.stDownloadButton button:hover { border-color:var(--ss-teal); color:var(--ss-teal-dark); background:#f4faf8; box-shadow:0 4px 12px rgba(11,116,104,.11); transform:translateY(-1px); }
-.stButton button[kind="primary"],[data-testid="stFormSubmitButton"] button[kind="primary"] { border-color:var(--ss-teal-dark); background:var(--ss-teal); color:#fff; box-shadow:0 5px 13px rgba(11,116,104,.2); }
-.stButton button[kind="primary"]:hover,[data-testid="stFormSubmitButton"] button[kind="primary"]:hover { background:var(--ss-teal-dark); color:#fff; }
+.stButton button[kind="primary"],[data-testid="stFormSubmitButton"] button[kind="primary"] { border-color:var(--ss-teal-dark)!important; background:var(--ss-teal)!important; color:#fff!important; box-shadow:0 5px 13px rgba(11,116,104,.2); }
+.stButton button[kind="primary"]:hover,[data-testid="stFormSubmitButton"] button[kind="primary"]:hover { border-color:var(--ss-teal-dark)!important; background:var(--ss-teal-hover)!important; color:#fff!important; }
+.stButton button[kind="primary"]:focus-visible,[data-testid="stFormSubmitButton"] button[kind="primary"]:focus-visible { background:var(--ss-teal-hover)!important; color:#fff!important; }
+.stButton button[kind="primary"]:active,[data-testid="stFormSubmitButton"] button[kind="primary"]:active { background:var(--ss-teal-dark)!important; color:#fff!important; transform:translateY(0); }
+:is(.stButton,[data-testid="stFormSubmitButton"]) button[kind="primary"] :is(p,span) { color:inherit!important; }
+:is(.stButton,[data-testid="stFormSubmitButton"]) button[kind="primary"] svg { color:inherit!important; fill:currentColor; }
+:is(.stButton,[data-testid="stFormSubmitButton"]) button[kind="primary"]:disabled { border-color:#c3d4d0!important; background:#dce8e5!important; color:#667d78!important; box-shadow:none; transform:none; opacity:1; }
 .stButton button:focus-visible,.stDownloadButton button:focus-visible { outline:3px solid rgba(11,116,104,.3); outline-offset:2px; }
 main [data-testid="stRadio"] [role="radiogroup"] { width:max-content; max-width:100%; gap:4px; padding:4px; background:#e5edef; border:1px solid var(--ss-line); border-radius:11px; }
 main [data-testid="stRadio"] [role="radiogroup"] label { margin:0; padding:6px 11px; border:1px solid transparent; border-radius:8px; }
