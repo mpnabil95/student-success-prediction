@@ -6,6 +6,8 @@
 
 Baseline audit: `0fa0c24e508f0221a2dae8044da17c3d7317e2bc`. Versi ini sudah mencakup peningkatan kontras, ikon SVG lokal/fallback tanpa ketergantungan font ikon, kontrol sidebar, serta pemulihan confusion matrix pada Hasil evaluasi. Tes tampilan bertambah menjadi 10 AppTest dan 5 tes aset. Suite lengkap setelah perbaikan audit berjumlah 39 tes lulus tanpa skip.
 
+State tombol aksi primer diperkuat setelah pemeriksaan deployment: label dan ikon mempertahankan warna putih pada kondisi hover, fokus, dan aktif; warna hover memakai teal yang tetap jelas; tombol nonaktif memiliki state abu-teal tersendiri. Perubahan ini mencegah tombol **Lihat hasil peninjauan** tampak hitam atau kehilangan kontras saat cursor diarahkan.
+
 Audit baseline memeriksa browser desktop: Gambaran Data, sidebar, prediksi individu, batch sintetis, confusion matrix, dan diagnostik. Paket perbaikan audit memperketat validasi CSV dan pemeriksaan release; tidak mendesain ulang UI. Pengujian menyeluruh mobile, pemilih file unggahan, unduhan browser, dan deployment commit baru masih perlu dilakukan. Lihat [kesiapan release](RELEASE_READINESS.md).
 
 ## Riwayat pembaruan 14 September 2026
